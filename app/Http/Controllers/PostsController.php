@@ -52,13 +52,13 @@ class PostsController extends Controller
         $post1->title = $request->title;
         $post1->url= $request->url;
         $post1->content  = $request->content;
-        $post1->created_by = 1;
+        $post1->user_id = 1;
         $post1->save();
         Log::info('new add made
             :$post1->title
             :$post1->content
             :$post1->url
-            :$post1->created_by');
+            :$post1->user_id');
         return \Redirect::action('PostsController@show',$post1->id);
     }
 
