@@ -12,7 +12,7 @@ class PostTable extends Migration
      */
     public function up()
     {
-        Schema::create('post', function (Blueprint $table) {
+        Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
             $table->string('url');
@@ -31,6 +31,6 @@ class PostTable extends Migration
      */
     public function down()
     {
-        Schema::drop('post');
+        Schema::drop('posts');
     }
 }

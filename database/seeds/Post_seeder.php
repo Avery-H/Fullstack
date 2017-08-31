@@ -12,11 +12,11 @@ class Post_seeder extends Seeder
     public function run()
     {
     for($i = 0; $i <=15; $i++){
-    	$post1 = new App\Post();
+    	$post1 = new App\Models\Post();
     	$post1->title = 'fakie'.$i;
     	$post1->url = 'fake'.$i;
     	$post1->content = 'if I was a pickle, I dont really know i wouldnt be alive.' . $i;
-    	$post1->user_id = $i;
+    	$post1->user_id = 1;
     	$post1->save();
 }
     }
