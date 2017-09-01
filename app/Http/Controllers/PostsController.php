@@ -19,14 +19,22 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        
+            if($request->has('q')){
+                $q = $request->q;
+                var_dump($q);
+            }
+        // if($user == 'mine'){
+        //     var_dump($request->user()->id);
+        
         $posts = shotty::paginate(4);
         $data['posts'] = $posts;
         return view('posts.display',$data);
-        
     }
-
+    
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -52,7 +60,7 @@ class PostsController extends Controller
         $post1->title = $request->title;
         $post1->url= $request->url;
         $post1->content  = $request->content;
-        $post1->user_id = 1;
+        $post1->user_id = $request->user()->id;
         $post1->save();
         Log::info('new add made
             :$post1->title
@@ -68,14 +76,39 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,Request $request)
     {
-        $posts = shotty::find($id);
+            $user = $request->user()->id;
+        if($id == 'vic'){
+            $posts = \App\User::find($user)->posts;
+           $belong = true;
+            // foreach ($posts as $post) {
+            //     $newArr['']=$post['title'];
+            // }
+            // foreach ($Arr as $post) {
+            //     $newArr['title']= $post['title'];
+
+            // }
+            
+        }
+        else{
+            $posts = shotty::find($id);
+            $belong = false;
+        }
+        //var_dump($user);
+        $data['belong'] = $belong;
         $data['posts'] = $posts;
+         $data['user'] = $user;
         if(!$posts){
             abort(404);
         }
+        else if($posts == null){
+            dd("stop");
+        }
+        else{
+    
         return view('posts.show',$data);
+    }
     }
 
     /**
@@ -86,6 +119,7 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
+
          $data["id"] = $id;
          if(!$id){
             abort(404);
